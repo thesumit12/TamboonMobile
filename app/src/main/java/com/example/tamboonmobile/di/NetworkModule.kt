@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 private const val CACHE_SIZE = 10 * 1024 * 1024
-private const val BASE_URL = "https://virtserver.swaggerhub.com/chakritw/tamboon-api/1.0.0"
+private const val BASE_URL = "https://virtserver.swaggerhub.com/chakritw/tamboon-api/1.0.0/"
 
 val networkModule = module {
     single { createOkHttpClient(androidContext()) }
