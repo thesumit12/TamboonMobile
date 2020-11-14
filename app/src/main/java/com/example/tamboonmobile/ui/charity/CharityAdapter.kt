@@ -1,6 +1,7 @@
-package com.example.tamboonmobile.ui
+package com.example.tamboonmobile.ui.charity
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tamboonmobile.R
 import com.example.tamboonmobile.databinding.CharityItemBinding
 import com.example.tamboonmobile.model.Charity
+import com.example.tamboonmobile.ui.donation.DonationActivity
 
 class CharityAdapter(private val context: Context):
     RecyclerView.Adapter<CharityAdapter.CharityViewHolder>() {
@@ -39,7 +41,8 @@ class CharityAdapter(private val context: Context):
         fun bind(charity: Charity?) {
             binding.charityItem = charity
             binding.layoutCharity.setOnClickListener {
-
+                val intent = DonationActivity.newIntent(context, charity?.name)
+                context.startActivity(intent)
             }
         }
     }

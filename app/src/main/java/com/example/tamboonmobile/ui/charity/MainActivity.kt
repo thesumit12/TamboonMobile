@@ -1,7 +1,6 @@
-package com.example.tamboonmobile.ui
+package com.example.tamboonmobile.ui.charity
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tamboonmobile.BR
@@ -43,7 +42,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             mainViewModel.loadingMsg.value = null
             mAdapter.setList(it)
         })
-
     }
 
     override fun getLayoutId(): Int = R.layout.activity_main

@@ -1,4 +1,4 @@
-package com.example.tamboonmobile.ui
+package com.example.tamboonmobile.ui.charity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: TamboonRepository): BaseViewModel() {
-    val loadingMsg = MutableLiveData("")
 
     fun getCharity(): LiveData<List<Charity>> {
         loadingMsg.value = "Fetching List.."

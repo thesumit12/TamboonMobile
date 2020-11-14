@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TamboonMobile</string>
+    <string name="make_donation">Make Donation</string>
+    <string name="donation_hint">Enter Donation Amount (THB)</string>
+    <string name="ok">OK</string>
+    <string name="donation_success">Donation Success</string>
+    <string name="donation_failure">Donation Failed</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

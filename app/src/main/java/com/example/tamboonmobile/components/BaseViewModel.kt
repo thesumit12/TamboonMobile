@@ -1,6 +1,7 @@
 package com.example.tamboonmobile.components
 
 import androidx.databinding.Observable
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tamboonmobile.components.eventBus.Event
 import com.example.tamboonmobile.components.eventBus.EventIdentifier
@@ -14,6 +15,7 @@ import com.example.tamboonmobile.components.eventBus.EventType
 open class BaseViewModel: ViewModel() {
 
     val onEventReceived: Event<EventType> = Event()
+    val loadingMsg = MutableLiveData("")
 
     fun triggerEvent(type: EventIdentifier, dataObj: Any = "") {
         val eventType = EventType(type, dataObj)
