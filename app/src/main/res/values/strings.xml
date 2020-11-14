@@ -6,4 +6,7 @@
     <string name="donation_success">Donation Success</string>
     <string name="donation_failure">Donation Failed</string>
     <string name="dismiss">Dismiss</string>
+    <string name="error">Error</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="try_again">Try Again</string>
 </resources>

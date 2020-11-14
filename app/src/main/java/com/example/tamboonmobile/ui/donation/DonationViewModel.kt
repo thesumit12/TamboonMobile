@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.net.ssl.HttpsURLConnection
 
 class DonationViewModel(private val repository: TamboonRepository): BaseViewModel() {
 
@@ -25,10 +26,11 @@ class DonationViewModel(private val repository: TamboonRepository): BaseViewMode
             val res = repository.makeDonation(donation)
             withContext(Dispatchers.Main) {
                 loadingMsg.value = null
-                if (res.success) {
+                if (res.statusCode == HttpsURLConnection.HTTP_OK) {
                     triggerEvent(EventIdentifier.DONATION_SUCCESS)
                 }else {
-                    triggerEvent(EventIdentifier.DONATION_FAILURE, res.error_message)
+                    errorLiveData.value = res.errorMsg
+                    triggerEvent(EventIdentifier.DONATION_FAILURE)
                 }
             }
         }

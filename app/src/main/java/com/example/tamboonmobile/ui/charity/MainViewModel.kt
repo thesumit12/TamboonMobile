@@ -1,23 +1,39 @@
 package com.example.tamboonmobile.ui.charity
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tamboonmobile.components.BaseViewModel
+import com.example.tamboonmobile.components.eventBus.EventIdentifier
 import com.example.tamboonmobile.model.Charity
 import com.example.tamboonmobile.repository.TamboonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.net.ssl.HttpsURLConnection
 
 class MainViewModel(private val repository: TamboonRepository): BaseViewModel() {
 
-    fun getCharity(): LiveData<List<Charity>> {
+    val noData = ObservableBoolean(false)
+    val charityList = MutableLiveData<List<Charity>>()
+
+    fun getCharity() {
         loadingMsg.value = "Fetching List.."
-        val charityLiveData = MutableLiveData<List<Charity>>()
         CoroutineScope(Dispatchers.IO).launch {
-            charityLiveData.postValue(repository.getCharityList())
+            val res = repository.getCharityList()
+            if (res.statusCode == HttpsURLConnection.HTTP_OK) {
+                charityList.postValue(repository.getCharityList().data)
+                loadingMsg.postValue(null)
+            }else {
+                errorLiveData.postValue(res.errorMsg)
+                loadingMsg.postValue(null)
+                noData.set(true)
+            }
         }
 
-        return charityLiveData
+    }
+
+    fun retry() {
+        triggerEvent(EventIdentifier.RETRY)
     }
 }

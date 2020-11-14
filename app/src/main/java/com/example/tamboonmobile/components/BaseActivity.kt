@@ -1,14 +1,12 @@
 package com.example.tamboonmobile.components
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
-import android.net.NetworkInfo
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.example.tamboonmobile.R
+import com.example.tamboonmobile.components.eventBus.EventIdentifier
 import org.koin.standalone.KoinComponent
 
 abstract class BaseActivity<T: ViewDataBinding, V: BaseViewModel>: AppCompatActivity(), KoinComponent {
@@ -28,6 +26,15 @@ abstract class BaseActivity<T: ViewDataBinding, V: BaseViewModel>: AppCompatActi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         performDataBinding()
+
+        mViewModel!!.errorLiveData.observe(this, {
+            if (it.isNotEmpty()) {
+                AlertDialogUtil.showErrorDialog(this, getString(R.string.error), it) { dialog, _ ->
+                    dialog.dismiss()
+                    mViewModel!!.triggerEvent(EventIdentifier.ERROR_DISMISSED)
+                }
+            }
+        })
     }
 
     fun getViewDataBinding(): T = mViewDataBinding

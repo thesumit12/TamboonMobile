@@ -16,6 +16,7 @@ open class BaseViewModel: ViewModel() {
 
     val onEventReceived: Event<EventType> = Event()
     val loadingMsg = MutableLiveData("")
+    val errorLiveData = MutableLiveData("")
 
     fun triggerEvent(type: EventIdentifier, dataObj: Any = "") {
         val eventType = EventType(type, dataObj)

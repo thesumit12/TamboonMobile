@@ -2,25 +2,18 @@ package com.example.tamboonmobile.ui.donation
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContract
-import co.omise.android.models.Card
-import co.omise.android.models.CardBrand
 import co.omise.android.models.Token
 import co.omise.android.ui.CreditCardActivity
 import co.omise.android.ui.OmiseActivity
 import com.example.tamboonmobile.BR
 import com.example.tamboonmobile.R
-import com.example.tamboonmobile.components.AlertDialogUtil
 import com.example.tamboonmobile.components.BaseActivity
 import com.example.tamboonmobile.components.eventBus.EventIdentifier
 import com.example.tamboonmobile.databinding.ActivityDonationBinding
 import com.example.tamboonmobile.ui.SuccessActivity
-import kotlinx.android.synthetic.main.activity_donation.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DonationActivity : BaseActivity<ActivityDonationBinding, DonationViewModel>() {
@@ -39,7 +32,8 @@ class DonationActivity : BaseActivity<ActivityDonationBinding, DonationViewModel
             when(event.type) {
                 EventIdentifier.MAKE_DONATION -> showCreditCardForm()
                 EventIdentifier.DONATION_SUCCESS -> navigateToSuccessScreen()
-                EventIdentifier.DONATION_FAILURE -> showFailureDialog(event.dataObj as String)
+                EventIdentifier.ERROR_DISMISSED -> this@DonationActivity.finish()
+                else -> {}
             }
         }
 
@@ -65,15 +59,6 @@ class DonationActivity : BaseActivity<ActivityDonationBinding, DonationViewModel
     private fun navigateToSuccessScreen() {
         val intent = Intent(this, SuccessActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun showFailureDialog(msg: String) {
-        AlertDialogUtil.showErrorDialog(this, getString(R.string.donation_failure),
-            msg
-        ) { dialog, _ ->
-            dialog.dismiss()
-            this.finish()
-        }
     }
 
     override fun getLayoutId(): Int = R.layout.activity_donation
