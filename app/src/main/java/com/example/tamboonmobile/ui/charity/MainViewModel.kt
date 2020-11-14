@@ -1,7 +1,6 @@
 package com.example.tamboonmobile.ui.charity
 
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tamboonmobile.components.BaseViewModel
 import com.example.tamboonmobile.components.eventBus.EventIdentifier
@@ -22,7 +21,7 @@ class MainViewModel(private val repository: TamboonRepository): BaseViewModel() 
         CoroutineScope(Dispatchers.IO).launch {
             val res = repository.getCharityList()
             if (res.statusCode == HttpsURLConnection.HTTP_OK) {
-                charityList.postValue(repository.getCharityList().data)
+                charityList.postValue(res.data)
                 loadingMsg.postValue(null)
             }else {
                 errorLiveData.postValue(res.errorMsg)

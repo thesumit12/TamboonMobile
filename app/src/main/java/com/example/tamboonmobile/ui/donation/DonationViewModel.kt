@@ -8,7 +8,6 @@ import com.example.tamboonmobile.repository.TamboonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.net.ssl.HttpsURLConnection
 
 class DonationViewModel(private val repository: TamboonRepository): BaseViewModel() {
@@ -24,15 +23,13 @@ class DonationViewModel(private val repository: TamboonRepository): BaseViewMode
         val donation = Donation(name, token, donationAmount.get()!!.toInt())
         CoroutineScope(Dispatchers.IO).launch {
             val res = repository.makeDonation(donation)
-            withContext(Dispatchers.Main) {
-                loadingMsg.value = null
+                loadingMsg.postValue(null)
                 if (res.statusCode == HttpsURLConnection.HTTP_OK) {
                     triggerEvent(EventIdentifier.DONATION_SUCCESS)
                 }else {
                     errorLiveData.value = res.errorMsg
                     triggerEvent(EventIdentifier.DONATION_FAILURE)
                 }
-            }
         }
     }
 }
